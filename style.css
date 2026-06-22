@@ -28,7 +28,7 @@ body.terms {
 .split-grid {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: minmax(420px, clamp(520px, 27vw, 760px)) 1fr;
+  grid-template-columns: minmax(460px, clamp(620px, 32vw, 860px)) 1fr;
 }
 
 .panel {
@@ -144,6 +144,10 @@ body.terms {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+.brand div {
+  padding-right: 18px;
 }
 
 .brand img {
