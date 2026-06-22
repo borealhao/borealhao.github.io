@@ -28,7 +28,7 @@ body.terms {
 .split-grid {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: minmax(400px, 520px) 1fr;
+  grid-template-columns: minmax(420px, clamp(520px, 27vw, 760px)) 1fr;
 }
 
 .panel {
@@ -306,6 +306,13 @@ footer {
 
 a {
   color: #b8d1ff;
+}
+
+@media (min-width: 1200px) {
+  .site-header h1 {
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
 }
 
 @media (max-width: 980px) {
