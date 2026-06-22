@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hao Huynh • Illustrator</title>
+  <link rel="icon" type="image/avif" href="w=1920,quality=90,fit=scale-down,icon.avif" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="home">
+  <div class="split-grid">
+    <section class="panel left-panel">
+      <header class="site-header">
+        <div class="brand">
+          <img src="w=1920,quality=90,fit=scale-down,icon.avif" alt="Hao logo" />
+          <div>
+            <h1>Hey, I’m Hao!</h1>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-block">
+        <p class="business">Business: <a href="mailto:borealhao@gmail.com">borealhao@gmail.com</a></p>
+        <p class="status">Commissions open! 🎉</p>
+
+        <div class="links-block">
+          <h2>Socials</h2>
+          <ul class="link-list socials">
+            <li><a href="https://bsky.app/profile/borealhao.bsky.social" target="_blank" rel="noopener" data-image="dorianvineahug_v11.png">Bluesky</a></li>
+            <li><a href="https://lamapola.the-comic.org/comics/" target="_blank" rel="noopener" data-image="bliss_selvedge_v15.png">L’amapola Webcomic on Comicfury</a></li>
+            <li><a href="https://www.youtube.com/@borealhao?sub_confirmation=1" target="_blank" rel="noopener" data-image="GlareExport.png">YouTube</a></li>
+            <li><a href="https://e621.net/posts?tags=borealhao+order%3Afavcount" target="_blank" rel="noopener" data-image="bigleafexport.png">e621 (18+)</a></li>
+          </ul>
+        </div>
+
+        <div class="links-block">
+          <h2>Other</h2>
+          <ul class="link-list">
+            <li><a href="terms.html">Terms of Service — Commissions</a></li>
+            <li><a href="https://toyhou.se/borealhao/characters" target="_blank" rel="noopener">Toyhouse</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <footer class="page-footer">
+      </footer>
+    </section>
+
+    <aside class="panel right-panel">
+      <div class="image-frame">
+        <img id="previewImage" src="dorianvineahug_v11.png" alt="Artwork preview" />
+        <div class="image-overlay"></div>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    const previewImage = document.getElementById('previewImage');
+    const defaultSrc = 'dorianvineahug_v11.png';
+
+    document.querySelectorAll('.socials a').forEach(link => {
+      const image = link.dataset.image;
+      link.addEventListener('mouseenter', () => {
+        previewImage.src = image;
+      });
+    });
+  </script>
+</body>
+</html>
