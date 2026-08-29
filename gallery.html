@@ -13,18 +13,18 @@
       <div class="brand">
         <img src="assets/brand/icon.avif" alt="Hao logo" />
         <div>
-          <h1>My Arcs and One-Shots</h1>
+          <h1>Comics</h1>
+          <p class="eyebrow">One-shots & arcs</p>
         </div>
       </div>
 
       <nav>
         <a href="index.html">Home</a>
-        <a href="terms.html">Terms</a>
       </nav>
     </header>
 
     <main class="gallery-main">
-      <p class="gallery-intro">All of my published larger works. (WORK IN PROGRESS)</p>
+      <p class="gallery-intro">My published comics, story arcs, and standalone one-shots. (WORK IN PROGRESS)</p>
       <section id="galleryGrid" class="gallery-grid" aria-live="polite"></section>
     </main>
   </div>
@@ -34,7 +34,9 @@
       <div class="reader-toolbar">
         <a id="readerDownload" class="reader-download" href="#" target="_blank" rel="noopener" download>Download PDF</a>
         <button class="reader-close" type="button" aria-label="Close reader">
-          <img src="assets/icons/close.svg" alt="" aria-hidden="true" />
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M6.4 5.4a1 1 0 0 1 1.4 0L12 9.59l4.2-4.19a1 1 0 1 1 1.4 1.42L13.41 11l4.19 4.2a1 1 0 1 1-1.42 1.4L12 12.41l-4.2 4.19a1 1 0 1 1-1.4-1.42L10.59 11 6.4 6.8a1 1 0 0 1 0-1.4Z" fill="currentColor"/>
+          </svg>
         </button>
       </div>
 
@@ -42,32 +44,19 @@
         <div id="readerStrip" class="reader-strip" aria-live="polite"></div>
       </div>
 
-      <button id="readerSettingsToggle" class="reader-settings-toggle" type="button" aria-label="Open reader settings" aria-expanded="false">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M19.14 12.94c.04-.31.06-.62.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.61-.18l-2.39.96a7.13 7.13 0 0 0-1.63-.94L14.5 2.5a.5.5 0 0 0-.5-.5h-3.99a.5.5 0 0 0-.5.5l-.34 2.52c-.58.23-1.12.55-1.63.94l-2.39-.96a.5.5 0 0 0-.61.18L2.71 9.84a.5.5 0 0 0 .12.64l2.03 1.58c-.04.31-.06.62-.06.94s.02.63.06.94l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32a.5.5 0 0 0 .61.18l2.39-.96c.51.39 1.05.71 1.63.94l.34 2.52a.5.5 0 0 0 .5.5h3.99a.5.5 0 0 0 .5-.5l.34-2.52c.58-.23 1.12-.55 1.63-.94l2.39.96a.5.5 0 0 0 .61-.18l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58ZM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5Z"/>
-        </svg>
-      </button>
-
-      <div id="readerSettingsPanel" class="reader-settings-panel" hidden>
-        <div class="reader-mode-switch" aria-label="Reading mode">
-          <button class="reader-mode-button is-active" type="button" data-mode="vertical">Vertical</button>
-          <button class="reader-mode-button" type="button" data-mode="focus">Focus</button>
-        </div>
-        <label for="readerWidth">Page width</label>
-        <input id="readerWidth" type="range" min="35" max="100" step="1" value="72" />
-      </div>
     </div>
   </div>
 
   <script>
-    const blueLinePages = Array.from({ length: 24 }, (_, index) => `assets/comics/lamapola-blue-line/chapter-0/pages/page-${index + 1}.png`);
+    const blueLinePages = Array.from({ length: 24 }, (_, index) => `assets/comics/lamapola-blue-line/pages/page-${index + 1}.png`);
 
     const series = [
       {
+        id: 'blueline',
         title: 'L’amapola Blue Line',
         subtitle: 'Chapter 0',
-        cover: 'assets/comics/lamapola-blue-line/chapter-0/cover/lamapola-blue-line-poster.png',
-        pdf: 'assets/comics/lamapola-blue-line/chapter-0/lamapola-blue-line-chapter-0.pdf',
+        cover: 'assets/comics/lamapola-blue-line/cover/lamapola-blue-line-poster.png',
+        pdf: 'assets/comics/lamapola-blue-line/lamapola-blue-line-chapter-0.pdf',
         images: blueLinePages
       }
     ];
@@ -77,45 +66,24 @@
     const readerStrip = document.getElementById('readerStrip');
     const closeButton = document.querySelector('.reader-close');
     const readerDownload = document.getElementById('readerDownload');
-    const readerSettingsToggle = document.getElementById('readerSettingsToggle');
-    const readerSettingsPanel = document.getElementById('readerSettingsPanel');
-    const readerWidthInput = document.getElementById('readerWidth');
-    const modeButtons = Array.from(document.querySelectorAll('.reader-mode-button'));
-
     let currentSeries = null;
     let currentPageIndex = 0;
     let readerMode = 'vertical';
 
     function applyReaderWidth() {
-      const width = readerWidthInput.value;
-      readerStrip.style.setProperty('--reader-page-width', `${width}%`);
-    }
-
-    function syncReaderModeButtons() {
-      modeButtons.forEach((button) => {
-        const active = button.dataset.mode === readerMode;
-        button.classList.toggle('is-active', active);
-        button.setAttribute('aria-pressed', String(active));
-      });
+      readerStrip.style.setProperty('--reader-page-width', '72%');
     }
 
     function setReaderMode(mode) {
       if (!['vertical', 'focus'].includes(mode)) return;
       readerMode = mode;
       reader.dataset.mode = mode;
-      syncReaderModeButtons();
       if (currentSeries) {
         if (mode === 'focus' && currentPageIndex >= currentSeries.images.length) {
           currentPageIndex = 0;
         }
         renderReader();
       }
-    }
-
-    function toggleReaderSettings(forceOpen) {
-      const shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : readerSettingsPanel.hidden;
-      readerSettingsPanel.hidden = !shouldOpen;
-      readerSettingsToggle.setAttribute('aria-expanded', String(shouldOpen));
     }
 
     function renderGallery() {
@@ -125,7 +93,7 @@
             <img class="gallery-cover" src="${item.cover}" alt="${item.title} cover" />
           </button>
           <div class="gallery-card-copy">
-            <h2>${item.title}</h2>
+            <h2><a href="gallery.html?entry=${item.id}">${item.title}</a></h2>
             <p>${item.subtitle}</p>
           </div>
         </article>
@@ -156,6 +124,10 @@
     function openReader(index) {
       currentSeries = series[index];
       currentPageIndex = 0;
+      const entryId = currentSeries.id || `series-${index}`;
+      const url = new URL(window.location.href);
+      url.searchParams.set('entry', entryId);
+      window.history.pushState({}, '', url);
       setReaderMode(readerMode);
       readerDownload.href = currentSeries.pdf || '#';
       readerDownload.hidden = !currentSeries.pdf;
@@ -165,6 +137,10 @@
     }
 
     function closeReader() {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('entry');
+      window.history.pushState({}, '', url);
+
       reader.hidden = true;
       reader.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('reader-open');
@@ -189,20 +165,27 @@
 
     galleryGrid.addEventListener('click', (event) => {
       const cardButton = event.target.closest('.gallery-cover-button');
-      if (!cardButton) return;
+      if (cardButton) {
+        const index = Number(cardButton.dataset.index);
+        if (!Number.isNaN(index)) {
+          openReader(index);
+        }
+        return;
+      }
 
-      const index = Number(cardButton.dataset.index);
-      if (!Number.isNaN(index)) {
-        openReader(index);
+      const link = event.target.closest('a[href*="entry="]');
+      if (link) {
+        event.preventDefault();
+        const url = new URL(link.href);
+        const entry = url.searchParams.get('entry');
+        const index = series.findIndex((item) => item.id === entry);
+        if (index >= 0) {
+          openReader(index);
+        }
       }
     });
 
     closeButton.addEventListener('click', closeReader);
-    readerSettingsToggle.addEventListener('click', () => toggleReaderSettings());
-    readerWidthInput.addEventListener('input', applyReaderWidth);
-    modeButtons.forEach((button) => {
-      button.addEventListener('click', () => setReaderMode(button.dataset.mode));
-    });
 
     const readerPrevButton = document.createElement('button');
     const readerNextButton = document.createElement('button');
@@ -241,10 +224,19 @@
       }
     });
 
+    const params = new URLSearchParams(window.location.search);
+    const initialEntry = params.get('entry');
+
     applyReaderWidth();
     setReaderMode('vertical');
-    readerSettingsPanel.hidden = true;
     renderGallery();
+
+    if (initialEntry) {
+      const index = series.findIndex((item) => item.id === initialEntry);
+      if (index >= 0) {
+        openReader(index);
+      }
+    }
   </script>
 </body>
 </html>
