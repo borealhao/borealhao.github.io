@@ -92,6 +92,10 @@ body.terms {
   margin-bottom: 28px;
 }
 
+.terms-box .gallery-header {
+  border-top: none;
+}
+
 .terms-box .brand img {
   border: 1px solid rgba(255, 255, 255, 0.14);
 }
