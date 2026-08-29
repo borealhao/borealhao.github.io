@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compact Gallery</title>
+  <link rel="icon" type="image/avif" href="w=1920,quality=90,fit=scale-down,icon.avif" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="gallery-page">
+  <div class="gallery-shell">
+    <header class="site-header gallery-header">
+      <div class="brand">
+        <img src="w=1920,quality=90,fit=scale-down,icon.avif" alt="Hao logo" />
+        <div>
+          <h1>Compact gallery</h1>
+        </div>
+      </div>
+
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="terms.html">Terms</a>
+      </nav>
+    </header>
+
+    <main class="gallery-main">
+      <p class="gallery-intro">All of my one-shots so far.</p>
+      <section id="galleryGrid" class="gallery-grid" aria-live="polite"></section>
+    </main>
+  </div>
+
+  <div id="lightbox" class="lightbox" aria-hidden="true" hidden>
+    <div class="lightbox-viewport">
+      <button class="lightbox-close" type="button" aria-label="Close gallery">
+        <img src="assets/icons/close.svg" alt="" aria-hidden="true" />
+      </button>
+      <button class="lightbox-nav prev" type="button" aria-label="Previous image">
+        <img src="assets/icons/chevron-left.svg" alt="" aria-hidden="true" />
+      </button>
+
+      <img id="lightboxImage" src="" alt="Selected gallery slide" />
+
+      <button class="lightbox-nav next" type="button" aria-label="Next image">
+        <img src="assets/icons/chevron-right.svg" alt="" aria-hidden="true" />
+      </button>
+
+      <div class="lightbox-meta">
+        <p id="lightboxTitle">Series</p>
+        <span id="lightboxCounter">1 / 1</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const series = [
+      {
+        title: 'Dorian Vine',
+        subtitle: 'Short one-shot',
+        cover: 'dorianvineahug_v11.png',
+        images: [
+          'dorianvineahug_v11.png',
+          'GlareExport.png',
+          'bigleafexport.png'
+        ]
+      },
+      {
+        title: 'Bliss Selvedge',
+        subtitle: 'Mini comic',
+        cover: 'bliss_selvedge_v15.png',
+        images: [
+          'bliss_selvedge_v15.png',
+          'dorianvineahug_v11.png',
+          'GlareExport.png'
+        ]
+      },
+      {
+        title: 'Bigleaf',
+        subtitle: 'Quiet vignette',
+        cover: 'bigleafexport.png',
+        images: [
+          'bigleafexport.png',
+          'GlareExport.png',
+          'bliss_selvedge_v15.png'
+        ]
+      }
+    ];
+
+    const galleryGrid = document.getElementById('galleryGrid');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const lightboxCounter = document.getElementById('lightboxCounter');
+    const closeButton = document.querySelector('.lightbox-close');
+    const prevButton = document.querySelector('.lightbox-nav.prev');
+    const nextButton = document.querySelector('.lightbox-nav.next');
+
+    let currentSeries = null;
+    let currentIndex = 0;
+
+    function renderGallery() {
+      galleryGrid.innerHTML = series.map((item, index) => `
+        <article class="gallery-card">
+          <button class="gallery-cover-button" type="button" data-index="${index}" aria-label="Open ${item.title}">
+            <img class="gallery-cover" src="${item.cover}" alt="${item.title} cover" />
+            <span class="gallery-read-tag">Open series</span>
+          </button>
+          <div class="gallery-card-copy">
+            <h2>${item.title}</h2>
+            <p>${item.subtitle}</p>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function updateLightbox() {
+      if (!currentSeries) return;
+
+      const total = currentSeries.images.length;
+      const slide = currentSeries.images[currentIndex];
+      lightboxImage.src = slide;
+      lightboxImage.alt = `${currentSeries.title} slide ${currentIndex + 1}`;
+      lightboxTitle.textContent = currentSeries.title;
+      lightboxCounter.textContent = `${currentIndex + 1} / ${total}`;
+    }
+
+    function openLightbox(index) {
+      currentSeries = series[index];
+      currentIndex = 0;
+      updateLightbox();
+      lightbox.hidden = false;
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('lightbox-open');
+    }
+
+    function closeLightbox() {
+      lightbox.hidden = true;
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('lightbox-open');
+      currentSeries = null;
+      currentIndex = 0;
+    }
+
+    function showPreviousSlide() {
+      if (!currentSeries) return;
+      currentIndex = (currentIndex - 1 + currentSeries.images.length) % currentSeries.images.length;
+      updateLightbox();
+    }
+
+    function showNextSlide() {
+      if (!currentSeries) return;
+      currentIndex = (currentIndex + 1) % currentSeries.images.length;
+      updateLightbox();
+    }
+
+    galleryGrid.addEventListener('click', (event) => {
+      const cardButton = event.target.closest('.gallery-cover-button');
+      if (!cardButton) return;
+
+      const index = Number(cardButton.dataset.index);
+      if (!Number.isNaN(index)) {
+        openLightbox(index);
+      }
+    });
+
+    closeButton.addEventListener('click', closeLightbox);
+    prevButton.addEventListener('click', showPreviousSlide);
+    nextButton.addEventListener('click', showNextSlide);
+
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (lightbox.hidden) return;
+
+      if (event.key === 'Escape') {
+        closeLightbox();
+      } else if (event.key === 'ArrowLeft') {
+        showPreviousSlide();
+      } else if (event.key === 'ArrowRight') {
+        showNextSlide();
+      }
+    });
+
+    renderGallery();
+  </script>
+</body>
+</html>
