@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hao's Home Page</title>
-  <link rel="icon" type="image/avif" href="w=1920,quality=90,fit=scale-down,icon.avif" />
+  <link rel="icon" type="image/avif" href="assets/brand/icon.avif" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="home">
@@ -12,7 +12,7 @@
     <section class="panel left-panel">
       <header class="site-header">
         <div class="brand">
-          <img src="w=1920,quality=90,fit=scale-down,icon.avif" alt="Hao logo" />
+          <img src="assets/brand/icon.avif" alt="Hao logo" />
           <div>
             <h1>Hey, I’m Hao!</h1>
           </div>
@@ -26,11 +26,11 @@
         <div class="links-block">
           <h2>Socials</h2>
           <ul class="link-list socials">
-            <li><a href="https://bsky.app/profile/borealhao.bsky.social" target="_blank" rel="noopener" data-image="dorianvineahug_v11.png">Bluesky</a></li>
-            <li><a href="https://lamapola.the-comic.org/comics/" target="_blank" rel="noopener" data-image="bliss_selvedge_v15.png">L’amapola Webcomic on Comicfury</a></li>
-            <li><a href="https://www.youtube.com/@borealhao?sub_confirmation=1" target="_blank" rel="noopener" data-image="GlareExport.png">YouTube</a></li>
-            <li><a href="https://e621.net/posts?tags=borealhao+order%3Afavcount" target="_blank" rel="noopener" data-image="bigleafexport.png">e621 (18+)</a></li>
-            <li><a href="https://bsky.app/profile/lewdhao.bsky.social" target="_blank" rel="noopener" data-image="bigleafexport.png">Bluesky (18+)</a></li>
+            <li><a href="https://bsky.app/profile/borealhao.bsky.social" target="_blank" rel="noopener" data-image="assets/art/dorianvineahug_v11.png">Bluesky</a></li>
+            <li><a href="https://lamapola.the-comic.org/comics/" target="_blank" rel="noopener" data-image="assets/art/bliss_selvedge_v15.png">L’amapola Webcomic on Comicfury</a></li>
+            <li><a href="https://www.youtube.com/@borealhao?sub_confirmation=1" target="_blank" rel="noopener" data-image="assets/art/GlareExport.png">YouTube</a></li>
+            <li><a href="https://e621.net/posts?tags=borealhao+order%3Afavcount" target="_blank" rel="noopener" data-image="assets/art/bigleafexport.png">e621 (18+)</a></li>
+            <li><a href="https://bsky.app/profile/lewdhao.bsky.social" target="_blank" rel="noopener" data-image="assets/art/bigleafexport.png">Bluesky (18+)</a></li>
           </ul>
         </div>
 
@@ -50,7 +50,7 @@
 
     <aside class="panel right-panel">
       <div class="image-frame">
-        <img id="previewImage" src="dorianvineahug_v11.png" alt="Artwork preview" />
+        <img id="previewImage" src="assets/art/dorianvineahug_v11.png" alt="Artwork preview" />
         <div class="image-overlay"></div>
       </div>
     </aside>
@@ -58,7 +58,7 @@
 
   <script>
     const previewImage = document.getElementById('previewImage');
-    const defaultSrc = 'dorianvineahug_v11.png';
+    const defaultSrc = 'assets/art/dorianvineahug_v11.png';
 
     document.querySelectorAll('.socials a').forEach(link => {
       const image = link.dataset.image;
