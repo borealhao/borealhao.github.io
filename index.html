@@ -62,7 +62,6 @@
 
   <script>
     const previewImage = document.getElementById('previewImage');
-    const defaultPreview = previewImage.src;
 
     document.querySelectorAll('a[data-image]').forEach(link => {
       const image = link.dataset.image;
@@ -72,12 +71,6 @@
       });
       link.addEventListener('focus', () => {
         previewImage.src = image;
-      });
-      link.addEventListener('mouseleave', () => {
-        previewImage.src = defaultPreview;
-      });
-      link.addEventListener('blur', () => {
-        previewImage.src = defaultPreview;
       });
     });
   </script>
