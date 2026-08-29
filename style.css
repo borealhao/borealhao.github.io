@@ -456,6 +456,13 @@ body.reader-open {
   background: rgba(11, 18, 30, 0.96);
 }
 
+.reader-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: auto;
+}
+
 .reader-download {
   display: inline-flex;
   align-items: center;
